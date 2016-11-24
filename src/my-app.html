@@ -1,0 +1,240 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="my-icons.html">
+
+<dom-module id="my-app">
+  <template>
+    <firebase-app 
+      auth-domain="diet-problem-solver.firebaseapp.com"
+      database-url="https://diet-problem-solver.firebaseio.com"
+      api-key="AIzaSyAolj_Z75lkhNYR7ycQHqISxAacrQMNCQE"
+    >
+    </firebase-app>
+    <firebase-auth id="auth" user="{{user}}" provider="google" on-error="showError"></firebase-auth>
+    <style>
+      :host {
+        --app-primary-color: #8BC34A;
+        --app-secondary-color: black;
+
+        display: block;
+      }
+
+      app-header {
+        color: #fff;
+        background-color: var(--app-primary-color);
+      }
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+      
+      paper-dialog {
+        background-color: var(--app-primary-color);
+      }
+
+      .drawer-list {
+        margin: 0 20px;
+      }
+
+      .drawer-list a {
+        display: block;
+
+        padding: 0 16px;
+
+        text-decoration: none;
+
+        color: var(--app-secondary-color);
+
+        line-height: 40px;
+      }
+
+      .drawer-list a.iron-selected {
+        color: black;
+
+        font-weight: bold;
+      }
+    </style>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <app-drawer-layout fullbleed>
+      <!-- Drawer content -->
+      <!--<app-drawer>-->
+      <!--  <app-toolbar>Menu</app-toolbar>-->
+      <!--  <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">-->
+      <!--    <a name="view1" href="/view1">View One</a>-->
+      <!--    <a name="view2" href="/view2">View Two</a>-->
+      <!--    <a name="view3" href="/view3">View Three</a>-->
+      <!--  </iron-selector>-->
+      <!--</app-drawer>-->
+
+      <!-- Main content -->
+      <app-header-layout has-scrolling-region>
+
+        <app-header condenses reveals effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+            <div main-title>Diet Problem Solver</div>
+            <template is="dom-if" if="{{!user}}">
+              <paper-button class="header-button" on-tap="toggleAuthModal" raised>Log-in</paper-button>
+            </template>
+            <template is="dom-if" if="{{user}}">
+              <paper-button class="header-button" on-tap="toggleAuthModal" raised>Log-out</paper-button>
+            </template>
+          </app-toolbar>
+        </app-header>
+
+        <iron-pages
+            selected="[[page]]"
+            attr-for-selected="name"
+            fallback-selection="view404"
+            role="main">
+          <my-view1 name="view1"></my-view1>
+          <food-select name="food-select"></food-select>
+          <my-view2 name="view2"></my-view2>
+          <my-view3 name="view3"></my-view3>
+          <my-view404 name="view404"></my-view404>
+        </iron-pages>
+      </app-header-layout>
+    </app-drawer-layout>
+    
+    <!--<iron-pages -->
+    <!--    selected="[[page]]"-->
+    <!--    fallback-selection="view404">-->
+    <!--  <my-view1 name="view1"></my-view1>-->
+    <!--  <food-select name="food-select"></food-select>-->
+    <!--  <my-view404 name="view404"></my-view404>-->
+    <!--</iron-pages>-->
+    
+     <paper-dialog id="authModal">
+        <h2>Log-in</h2>
+        <div hidden$="{{user}}">
+          <form on-submit="signInWithEmailAndPassword">
+            <paper-input value="{{email}}" type="email" placeholder="Email"></paper-input>
+            <paper-input value="{{password}}" type="password" placeholder="Password"></paper-input>
+            <paper-button raised type="submit" on-tap="signInWithEmailAndPassword">Sign In</paper-button>
+            <paper-button raised type="button" on-tap="createUserWithEmailAndPassword">Sign Up</paper-button>
+          </form>
+          <p>
+            <paper-button raised on-tap="signInAnonymously">
+              Sign-in anonymously
+            </paper-button>
+            <paper-button raised on-tap="signInWithGoogle">
+              Sign-in with Google
+            </paper-button>
+          </p>
+        </div>
+        <div hidden$="{{!user}}">
+          <table>
+            <tr><th>uid</th> <td>{{user.uid}}</td></tr>
+            <paper-input id="specialUID" name="UID" hidden=true value="{{user.uid}}"></paper-input>
+            <tr><th>displayName</th> <td>{{user.displayName}}</td></tr>
+            <tr><th>email</th> <td>{{user.email}}</td></tr>
+            <tr><th>emailVerified</th> <td>{{user.emailVerified}}</td></tr>
+          </table>
+  
+          <button on-tap="signOut">Sign Out</button>
+        </div>
+      </paper-dialog> 
+  </template>
+
+  <script>
+    Polymer({
+      is: 'my-app',
+
+      properties: {
+        page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged'
+        }
+      },
+      
+      user: {
+          type: Object,
+          value: null,
+          notify: true
+        },
+        
+      observers: [
+        '_routePageChanged(routeData.page)'
+      ],
+      
+
+      _routePageChanged: function(page) {
+        this.page = page || 'view1';
+      },
+
+      _pageChanged: function(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl(page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      },
+
+      _showPage404: function() {
+        this.page = 'view404';
+      },
+      
+      toggleAuthModal: function(e) {
+        this.$$('#authModal').open();
+      },
+      
+      signInAnonymously: function() {
+        this.error = null;
+        this.$.auth.signInAnonymously().then(function(result) {
+          this.$.successToast.show('Successfully logged in');
+        }.bind(this)).catch(function() {
+          this.sampleFunction;
+          this.$.errorToast.show('Log in failed');
+        });
+        
+        // this.$$('#loginToast').open();
+        
+      },
+      
+      sampleFunction: function() {
+        console.log("just testing");
+      },
+      
+      signInWithGoogle: function() {
+        this.error = null;
+        this.$.auth.signInWithPopup();
+      },
+      
+      signOut: function() {
+        this.error = null;
+        this.$.auth.signOut().then(function(result) {
+          this.$.primaryToast.show('Successfully logged out');
+        }.bind(this)).catch();
+      },
+    });
+  </script>
+</dom-module>
