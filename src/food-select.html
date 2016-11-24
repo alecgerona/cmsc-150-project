@@ -60,13 +60,17 @@
           }
           
           .div-guide:hover img {
-            transform: scale(1.35);
+            /*transform: scale(1.35);*/
             /*opacity:0.2;*/
           }
           
           .foodPic:hover {
             transform: scale(1.35);
             /*opacity:0.2;*/
+          }
+          
+          .foodPic:visited {
+            transform: scale(0.5);
           }
           
           .div-guide:hover .menu {
@@ -90,12 +94,11 @@
         <!--<template is="dom-bind">-->
         <div class="container flex-wrap">
           <template is="dom-repeat" items="{{foodGroup}}">
-            <img class="foodPic" on-mouseover="onHovered" on-tap="addFood" src="../images/banana.jpg">
+            <img class="foodPic" value="{{item}}" on-mouseover="onHovered" on-tap="chooseFood" on-load="move" src="../images/{{item.url}}">
           </template>
         </div> 
         <mercury-paginator id="merc" perpage="10" show-first show-last items="{{foodGroup}}"></mercury-paginator>
          
-        <paper-button id="button" on-tap="test">damn</paper-button>
         <paper-button id="button" on-tap="compute">compute</paper-button>
         <span id="name"></span>
         
@@ -130,6 +133,7 @@
         var maxIron="";
         var serving = [];
         var foodCount = 1;
+        var selectFood = [];
         Polymer({
 
           is: 'food-select',
@@ -154,6 +158,26 @@
           },
           
           dataChanged: function(newData, oldData) {
+          },
+          
+          move : function() {
+            var chosenFood = this.root.querySelectorAll('.foodPic');
+            chosenFood.forEach(function(chosenFood){
+              chosenFood.style.background = (selectFood.indexOf(chosenFood.value.name) != -1) ? "green" : "";
+            });
+            console.log("shit");
+          },
+          
+          chooseFood: function(event) {
+            var index = selectFood.indexOf(event.model.item.name);
+            if (index == -1) {
+              selectFood.push(event.model.item.name);
+              event.target.style.background = "green";
+            } else {
+              selectFood.splice(index, 1);
+              event.target.style.background = "";
+            }
+            console.log(selectFood);
           },
           
           compute: function() {
