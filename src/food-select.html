@@ -90,7 +90,7 @@
         <!--<template is="dom-bind">-->
         <div class="container flex-wrap">
           <template is="dom-repeat" items="{{foodGroup}}">
-            <img class="foodPic" on-mouseover="onHovered" on-tap="addFood" src="../images/{{item.url}}">
+            <img class="foodPic" on-mouseover="onHovered" on-tap="addFood" src="../images/banana.jpg">
           </template>
         </div> 
         <mercury-paginator id="merc" perpage="10" show-first show-last items="{{foodGroup}}"></mercury-paginator>
@@ -164,74 +164,106 @@
             }
             funcStart += ") ";
             
+            //Prepend simplex call
+            var simplexCall = "system <- list(";
+            for (var i=1; i<22+2*foodCount; i++) {
+              if (i != 1) simplexCall += ", ";
+              simplexCall += "E" + i;
+            }
+            simplexCall += "); ";
+            console.log(simplexCall);
+            rString = simplexCall + rString;
+            
             //Add Nutrition limits
             
             
-            calories = "E1 <- " + funcStart + calories + " + 2000;";
+            calories = "E1 <- " + funcStart + calories + " + -2000;";
             console.log(calories);
+            rString = calories + rString;
             
-            maxCalories = "E2 <- " + funcStart + maxCalories + " + -2250;";
+            maxCalories = "E2 <- " + funcStart + maxCalories + " + 2250;";
             console.log(maxCalories);
+            rString = maxCalories + rString;
             
             cholesterol = "E3 <- " + funcStart + cholesterol + " + 0;";
             console.log(cholesterol);
+            rString = cholesterol + rString;
             
-            maxCholesterol = "E4 <- " + funcStart + maxCholesterol + " + -300;";
+            maxCholesterol = "E4 <- " + funcStart + maxCholesterol + " + 300;";
             console.log(maxCholesterol);
+            rString = maxCholesterol + rString;
             
-            totalFat = "E5 <- " + funcStart + totalFat + " + 0;";
+            totalFat = "E5 <- " + funcStart + totalFat + " + -0;";
             console.log(totalFat);
+            rString = totalFat + rString;
             
-            maxTotalFat = "E6 <- " + funcStart + maxTotalFat + " + -65;";
+            maxTotalFat = "E6 <- " + funcStart + maxTotalFat + " + 65;";
             console.log(maxTotalFat);
+            rString = maxTotalFat + rString;
             
             sodium = "E7 <- " + funcStart + sodium + " + 0;";
             console.log(sodium);
+            rString = sodium + rString;
             
-            maxSodium = "E8 <- " + funcStart + maxSodium + " + -2400;";
+            maxSodium = "E8 <- " + funcStart + maxSodium + " + 2400;";
             console.log(maxSodium);
+            rString = maxSodium + rString;
             
             carbohydrates = "E9 <- " + funcStart + carbohydrates + " + 0;";
             console.log(carbohydrates);
+            rString = carbohydrates + rString;
             
-            maxCarbohydrates = "E10 <- " + funcStart + maxCarbohydrates + " + -300;";
+            maxCarbohydrates = "E10 <- " + funcStart + maxCarbohydrates + " + 300;";
             console.log(maxCarbohydrates);
+            rString = maxCarbohydrates + rString;
             
-            dietaryFiber = "E11 <- " + funcStart + dietaryFiber + " + 25;";
+            dietaryFiber = "E11 <- " + funcStart + dietaryFiber + " + -25;";
             console.log(dietaryFiber);
+            rString = dietaryFiber + rString;
             
-            maxDietaryFiber = "E12 <- " + funcStart + maxDietaryFiber + " + -100;";
+            maxDietaryFiber = "E12 <- " + funcStart + maxDietaryFiber + " + 100;";
             console.log(maxDietaryFiber);
+            rString = maxDietaryFiber + rString;
             
-            protein = "E13 <- " + funcStart + protein + " + 50;";
+            protein = "E13 <- " + funcStart + protein + " + -50;";
             console.log(protein);
+            rString = protein + rString;
             
-            maxProtein = "E14 <- " + funcStart + maxProtein + " + -100;";
+            maxProtein = "E14 <- " + funcStart + maxProtein + " + 100;";
             console.log(maxProtein);
+            rString = maxProtein + rString;
             
-            vitA = "E15 <- " + funcStart + vitA + " + 5000;";
+            vitA = "E15 <- " + funcStart + vitA + " + -5000;";
             console.log(vitA);
+            rString = vitA + rString;
             
-            maxVitA = "E16 <- " + funcStart + maxVitA + " + -50000;";
+            maxVitA = "E16 <- " + funcStart + maxVitA + " + 50000;";
             console.log(maxVitA);
+            rString = maxVitA + rString;
             
-            vitC = "E17 <- " + funcStart + vitC + " + 50;";
+            vitC = "E17 <- " + funcStart + vitC + " + -50;";
             console.log(vitC);
+            rString = vitC + rString;
             
-            maxVitC = "E18 <- " + funcStart + maxVitC + " + -20000;";
+            maxVitC = "E18 <- " + funcStart + maxVitC + " + 20000;";
             console.log(maxVitC);
+            rString = maxVitC + rString;
             
-            calcium = "E19 <- " + funcStart + calcium + " + 800;";
+            calcium = "E19 <- " + funcStart + calcium + " + -800;";
             console.log(calcium);
+            rString = calcium + rString;
             
-            maxCalcium = "E20 <- " + funcStart + maxCalcium + " + -1600;";
+            maxCalcium = "E20 <- " + funcStart + maxCalcium + " + 1600;";
             console.log(maxCalcium);
+            rString = maxCalcium + rString;
             
-            iron = "E21 <- " + funcStart + iron + " + 10;";
+            iron = "E21 <- " + funcStart + iron + " + -10;";
             console.log(iron);
+            rString = iron + rString;
             
-            maxIron = "E22 <- " + funcStart + maxIron + " + -30;";
+            maxIron = "E22 <- " + funcStart + maxIron + " + 30;";
             console.log(maxIron);
+            rString = maxIron + rString;
             
             var equationCount = 23;
             var curr = "";
@@ -248,7 +280,7 @@
                 }
               }
               if (!negativePart) {
-                serving.push("E" + equationCount + " <- " + funcStart + curr + " + -10;");
+                serving.push("E" + equationCount + " <- " + funcStart + curr + " + 10;");
                 negativePart = true;
               } else {
                 serving.push("E" + equationCount + " <- " + funcStart + curr + " + 0;");
@@ -259,9 +291,25 @@
               curr = "";
             }
             console.log(serving);
+            for (var i=0; i<serving.length; i++) {
+              rString = serving[i] + rString;
+            }
             
             objectiveFunction = "E" + equationCount + " <- " + funcStart + objectiveFunction + " + 0;"
             console.log(objectiveFunction);
+            rString = objectiveFunction + rString;
+            
+            console.log(rString);
+            var test = new ocpu.Snippet(rString);
+            
+            //Run R Script
+            ocpu.seturl("//public.opencpu.org/ocpu/library/base/R");
+            let req = ocpu.rpc("identity", {
+                "x" : test
+            }, function(session){
+              console.log(session);
+              this.$.name.textContent = session;
+            }.bind(this));
            
 
           },
@@ -293,7 +341,7 @@
               iron += " + ";
               maxIron += " + ";
             }
-            objectiveFunction += "-" + event.model.item.pricePerServing + " * x" + foodCount;
+            objectiveFunction += event.model.item.pricePerServing + " * x" + foodCount;
             console.log("objectiveFunction: " + objectiveFunction);
             
             //Add to constraints
@@ -380,7 +428,7 @@
           test: function() {
             ocpu.seturl("//public.opencpu.org/ocpu/library/base/R");
             let req = ocpu.rpc("identity", {
-                "x" : sampleScript3
+                "x" : rString
             }, function(session){
               console.log(session);
               this.$.name.textContent = session;
