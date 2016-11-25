@@ -181,7 +181,14 @@
           },
           
           compute: function() {
-            var funcStart = "function("
+            for (var i=0; i<foodGroup.length; i++) {
+              if (selectFood.indexOf(foodGroup[i].name) != -1) {
+                this.addFood(i);
+              }
+            }
+            
+            
+            var funcStart = "function(";
             for (var i=1; i<foodCount; i++) {
               if (i != 1) funcStart += ", ";
               funcStart += "x" + i;  
@@ -338,7 +345,7 @@
 
           },
           
-          addFood: function(event) {
+          addFood: function(index) {
             //Add to objective function
             if (foodCount != 1) {
               objectiveFunction += " + "; 
@@ -365,73 +372,73 @@
               iron += " + ";
               maxIron += " + ";
             }
-            objectiveFunction += event.model.item.pricePerServing + " * x" + foodCount;
+            objectiveFunction += foodGroup[index].pricePerServing + " * x" + foodCount;
             console.log("objectiveFunction: " + objectiveFunction);
             
             //Add to constraints
             //Add calorie constraints
-            calories += event.model.item.calories + " * x" + foodCount;
-            maxCalories += "-" + event.model.item.calories + " * x" + foodCount;
+            calories += foodGroup[index].calories + " * x" + foodCount;
+            maxCalories += "-" + foodGroup[index].calories + " * x" + foodCount;
             console.log("calories: " + calories);
             console.log("maxCalories: " + maxCalories);
             
             //Add cholesterol
-            cholesterol += event.model.item.cholesterol + " * x" + foodCount;
-            maxCholesterol += "-" + event.model.item.cholesterol + " * x" + foodCount;
+            cholesterol += foodGroup[index].cholesterol + " * x" + foodCount;
+            maxCholesterol += "-" + foodGroup[index].cholesterol + " * x" + foodCount;
             console.log("Cholesterol: " + cholesterol);
             console.log("maxCholesterol: " + maxCholesterol);
             
             //Add totalFat
-            totalFat += event.model.item.totalFat + " * x" + foodCount;
-            maxTotalFat += "-" + event.model.item.totalFat + " * x" + foodCount;
+            totalFat += foodGroup[index].totalFat + " * x" + foodCount;
+            maxTotalFat += "-" + foodGroup[index].totalFat + " * x" + foodCount;
             console.log("totalFat: " + totalFat);
             console.log("maxTotalFat: " + maxTotalFat);
             
             //Add sodium
-            sodium += event.model.item.sodium + " * x" + foodCount;
-            maxSodium += "-" + event.model.item.sodium + " * x" + foodCount;
+            sodium += foodGroup[index].sodium + " * x" + foodCount;
+            maxSodium += "-" + foodGroup[index].sodium + " * x" + foodCount;
             console.log("sodium: " + sodium);
             console.log("maxSodium: " + maxSodium);
             
             //Add carbohydrates
-            carbohydrates += event.model.item.carbohydrates + " * x" + foodCount;
-            maxCarbohydrates += "-" + event.model.item.carbohydrates + " * x" + foodCount;
+            carbohydrates += foodGroup[index].carbohydrates + " * x" + foodCount;
+            maxCarbohydrates += "-" + foodGroup[index].carbohydrates + " * x" + foodCount;
             console.log("carbohydrates: " + carbohydrates);
             console.log("maxCarbohydrates: " + maxCarbohydrates);
             
             //Add dietaryFiber
-            dietaryFiber += event.model.item.dietaryFiber + " * x" + foodCount;
-            maxDietaryFiber += "-" + event.model.item.dietaryFiber + " * x" + foodCount;
+            dietaryFiber += foodGroup[index].dietaryFiber + " * x" + foodCount;
+            maxDietaryFiber += "-" + foodGroup[index].dietaryFiber + " * x" + foodCount;
             console.log("dietaryFiber: " + dietaryFiber);
             console.log("maxDietaryFiber: " + maxDietaryFiber);
             
             //Add protein
-            protein += event.model.item.protein + " * x" + foodCount;
-            maxProtein += "-" + event.model.item.protein + " * x" + foodCount;
+            protein += foodGroup[index].protein + " * x" + foodCount;
+            maxProtein += "-" + foodGroup[index].protein + " * x" + foodCount;
             console.log("protein: " + protein);
             console.log("maxProtein: " + maxProtein);
             
             //Add vitA
-            vitA += event.model.item.vitA + " * x" + foodCount;
-            maxVitA += "-" + event.model.item.vitA + " * x" + foodCount;
+            vitA += foodGroup[index].vitA + " * x" + foodCount;
+            maxVitA += "-" + foodGroup[index].vitA + " * x" + foodCount;
             console.log("vitA: " + vitA);
             console.log("maxVitA: " + maxVitA);
             
             //Add vitC
-            vitC += event.model.item.vitC + " * x" + foodCount;
-            maxVitC += "-" + event.model.item.vitC + " * x" + foodCount;
+            vitC += foodGroup[index].vitC + " * x" + foodCount;
+            maxVitC += "-" + foodGroup[index].vitC + " * x" + foodCount;
             console.log("vitC: " + vitC);
             console.log("maxVitC: " + maxVitC);
             
             //Add calcium
-            calcium += event.model.item.calcium + " * x" + foodCount;
-            maxCalcium += "-" + event.model.item.calcium + " * x" + foodCount;
+            calcium += foodGroup[index].calcium + " * x" + foodCount;
+            maxCalcium += "-" + foodGroup[index].calcium + " * x" + foodCount;
             console.log("calcium: " + calcium);
             console.log("maxCalcium: " + maxCalcium);
             
             //Add iron
-            iron += event.model.item.iron + " * x" + foodCount;
-            maxIron += "-" + event.model.item.iron + " * x" + foodCount;
+            iron += foodGroup[index].iron + " * x" + foodCount;
+            maxIron += "-" + foodGroup[index].iron + " * x" + foodCount;
             console.log("iron: " + iron);
             console.log("maxIron: " + maxIron);
             
