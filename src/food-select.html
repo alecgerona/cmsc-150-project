@@ -53,7 +53,6 @@
             width: 150px;
             height: 150px;
             padding: 5px;
-            transition: all .2s ease-in-out;
           }
           
           
@@ -64,6 +63,10 @@
           .div-guide:hover img {
             /*transform: scale(1.35);*/
             /*opacity:0.2;*/
+          }
+          
+          .foodPic {
+            transition: all .2s ease-in-out;
           }
           
           .foodPic:hover {
@@ -117,6 +120,14 @@
           </div>
         </div>
         <span id="name"></span>
+        
+        <div class="container">
+          <p>The cost of this optimal diet is ${{cost}} per day.</p>
+          <img src="../images/popcorn.jpg">
+          <p>2.3 servings of Popcorn</p>
+        </div>
+        
+        
         <paper-toast id="errorToast"></paper-toast>
     </template>
     <script src="//code.jquery.com/jquery-1.10.2.min.js"></script> 
@@ -175,6 +186,11 @@
               type: Boolean,
               notify: true,
               value: false
+            },
+            
+            cost: {
+              type: Number,
+              notify: true
             }
     
           },
@@ -190,6 +206,11 @@
           },
           
           chooseFood: function(event) {
+            if (this.computing) {
+              this.$.errorToast.innerHTML = "We are still optimizing your diet.";
+              this.$.errorToast.show();
+              return;
+            }
             var index = selectFood.indexOf(event.model.item.name);
             if (index == -1) {
               selectFood.push(event.model.item.name);
