@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/mercury-paginator/mercury-paginator.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
 
 <dom-module id="food-select">
@@ -90,6 +91,11 @@
             text-align: center;
           }
           
+          #errorToast {
+            --paper-toast-background-color: maroon;
+            --paper-toast-color: white;
+          }
+          
           
         </style>   
         <!--<p>blah blah</p>-->
@@ -111,7 +117,7 @@
           </div>
         </div>
         <span id="name"></span>
-        
+        <paper-toast id="errorToast"></paper-toast>
     </template>
     <script src="//code.jquery.com/jquery-1.10.2.min.js"></script> 
     <script src="../bower_components/opencpu.js/opencpu-0.5.js"></script>
@@ -196,6 +202,12 @@
           },
           
           compute: function() {
+            if (selectFood.length == 0) {
+              this.$.errorToast.innerHTML = "You haven't selected any food yet";
+              this.$.errorToast.show();
+              return;
+            }
+            
             this.computing = !this.computing;
             for (var i=0; i<foodGroup.length; i++) {
               if (selectFood.indexOf(foodGroup[i].name) != -1) {
