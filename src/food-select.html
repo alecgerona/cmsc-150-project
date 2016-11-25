@@ -24,8 +24,12 @@
             padding: 10px;
           }
           
-          paper-button {
-            background-color:green;
+          #button {
+            background-color:#4CAF50;
+          }
+          
+          .optionButton {
+            background-color: #FBC02D;
           }
           
           .wall {
@@ -122,7 +126,11 @@
         </div> 
         <mercury-paginator id="merc" perpage="10" show-first show-last items="{{foodGroup}}"></mercury-paginator>
         <div class="container">
-          <paper-button hidden$="{{computing}}" id="button" on-tap="compute">compute</paper-button>
+          <paper-button class="optionButton" on-tap="selectAll" raised>select all</paper-button>
+          <paper-button class="optionButton" on-tap="clearAll" raised>clear</paper-button>
+        </div>
+        <div class="container">
+          <paper-button hidden$="{{computing}}" id="button" on-tap="compute" raised>compute</paper-button>
           <div hidden$="{{!computing}}">
             <paper-spinner id="spinner" active></paper-spinner>
           </div>
@@ -210,6 +218,32 @@
           },
           
           dataChanged: function(newData, oldData) {
+          },
+          
+          selectAll : function() {
+            if (this.computing) {
+               this.$.errorToast.innerHTML = "We are still optimizing your diet.";
+               this.$.errorToast.show();
+               return;
+            }
+            
+            for (var i=0; i<foodGroup.length; i++) {
+              selectFood.push(foodGroup[i].name);
+            }
+            
+            this.move();
+            
+          },
+          
+          clearAll : function() {
+            if (this.computing) {
+              this.$.errorToast.innerHTML = "We are still optimizing your diet.";
+              this.$.errorToast.show();
+              return;
+            }
+            
+            selectFood = [];
+            this.move();
           },
           
           move : function() {
