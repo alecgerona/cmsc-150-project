@@ -107,6 +107,14 @@
             
         <!--</template>-->
         <!--<template is="dom-bind">-->
+        
+        <div id="solutionDiv" hidden$="{{!result}}" class="container">
+          <p>The cost of this optimal diet is ${{cost}} per day.</p>
+          <template is="dom-repeat" items="{{solution}}">
+            <img src="../images/{{item.url}}">
+            <p>{{item.serving}} servings of {{item.name}} at ${{item.cost}}</p>
+          </template>
+        </div>
         <div class="container flex-wrap">
           <template is="dom-repeat" items="{{foodGroup}}">
             <img class="foodPic" value="{{item}}" on-mouseover="onHovered" on-tap="chooseFood" on-load="move" src="../images/{{item.url}}">
@@ -119,13 +127,8 @@
             <paper-spinner id="spinner" active></paper-spinner>
           </div>
         </div>
-        <span id="name"></span>
         
-        <div class="container">
-          <p>The cost of this optimal diet is ${{cost}} per day.</p>
-          <img src="../images/popcorn.jpg">
-          <p>2.3 servings of Popcorn</p>
-        </div>
+        
         
         
         <paper-toast id="errorToast"></paper-toast>
@@ -191,6 +194,17 @@
             cost: {
               type: Number,
               notify: true
+            },
+            
+            solution: {
+              type: Array,
+              notify: true
+            },
+            
+            result: {
+              type: Boolean,
+              notify: true,
+              value: false
             }
     
           },
@@ -392,20 +406,31 @@
                 this.reset();
                 this.computing = !this.computing;
                 return;
-              }  
+              }
+              this.cost = Math.ceil(session[session.length-1] * 100) / 100;
               console.log(session.length);
-              this.$.name.textContent = session;
               console.log(session.length);
               this.computing = !this.computing;
               var solutionArray = [];
               var solution = {};
-              for (var i=0; i<foodGroup; i++) {
-                if (selectFood.indexOf(foodGroup[i].name) != -1) {
+              for (var i=0; i<foodGroup.length; i++) {
+                var index = selectFood.indexOf(foodGroup[i].name);
+                if (index != -1) {
+                  //Don't add to solution if it has 0 servings
+                  var serving = session[session.length-2-selectFood.length+index];
+                  if (serving == 0) {
+                    continue;
+                  }
                   solution["name"] = foodGroup[i].name;
                   solution["url"] = foodGroup[i].url;
-                  solution["pricePerServing"] = foodGroup[i].pricePerServing;
+                  solution["cost"] = Math.ceil(foodGroup[i].pricePerServing * serving * 100) / 100;
+                  solution["serving"] = serving;
+                  solutionArray.push(JSON.parse(JSON.stringify(solution)));
                 }
               }
+              console.log(solutionArray);
+              this.solution = solutionArray;
+              this.result = true;
               this.reset();
               
             }.bind(this));
