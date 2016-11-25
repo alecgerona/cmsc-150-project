@@ -22,7 +22,8 @@
     "paper-input": "PolymerElements/paper-input#^1.1.20",
     "polymerfire": "firebase/polymerfire#^0.10.2",
     "mercury-paginator": "^1.1.2",
-    "paper-pagination": "^0.2.2"
+    "paper-pagination": "^0.2.2",
+    "paper-spinner": "PolymerElements/paper-spinner#^1.2.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

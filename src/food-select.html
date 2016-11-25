@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/mercury-paginator/mercury-paginator.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
 
 
 <dom-module id="food-select">
@@ -84,6 +85,11 @@
             display:none;
           }
           
+          .container {
+            margin: auto;
+            text-align: center;
+          }
+          
           
         </style>   
         <!--<p>blah blah</p>-->
@@ -98,8 +104,12 @@
           </template>
         </div> 
         <mercury-paginator id="merc" perpage="10" show-first show-last items="{{foodGroup}}"></mercury-paginator>
-         
-        <paper-button id="button" on-tap="compute">compute</paper-button>
+        <div class="container">
+          <paper-button hidden$="{{computing}}" id="button" on-tap="compute">compute</paper-button>
+          <div hidden$="{{!computing}}">
+            <paper-spinner id="spinner" active></paper-spinner>
+          </div>
+        </div>
         <span id="name"></span>
         
     </template>
@@ -153,6 +163,12 @@
             foodGroup: {
               type: Object,
               notify:true
+            },
+            
+            computing: {
+              type: Boolean,
+              notify: true,
+              value: false
             }
     
           },
@@ -165,7 +181,6 @@
             chosenFood.forEach(function(chosenFood){
               chosenFood.style.background = (selectFood.indexOf(chosenFood.value.name) != -1) ? "green" : "";
             });
-            console.log("shit");
           },
           
           chooseFood: function(event) {
@@ -181,6 +196,7 @@
           },
           
           compute: function() {
+            this.computing = !this.computing;
             for (var i=0; i<foodGroup.length; i++) {
               if (selectFood.indexOf(foodGroup[i].name) != -1) {
                 this.addFood(i);
@@ -206,7 +222,6 @@
             rString = simplexCall + rString;
             
             //Add Nutrition limits
-            
             
             calories = "E1 <- " + funcStart + calories + " + -2000;";
             console.log(calories);
@@ -340,8 +355,35 @@
             }, function(session){
               console.log(session);
               this.$.name.textContent = session;
+              this.computing = !this.computing;
             }.bind(this));
-           
+            
+            objectiveFunction = "";
+            calories = "";
+            maxCalories = "";
+            cholesterol = "";
+            maxCholesterol = "";
+            totalFat = "";
+            maxTotalFat = "";
+            sodium = "";
+            maxSodium = "";
+            carbohydrates = "";
+            maxCarbohydrates = "";
+            dietaryFiber = "";
+            maxDietaryFiber = "";
+            protein = "";
+            maxProtein = "";
+            vitA = "";
+            maxVitA = "";
+            vitC = "";
+            maxVitC = "";
+            calcium = "";
+            maxCalcium = "";
+            iron = "";
+            maxIron = "";
+            serving = [];
+            foodCount = 1;
+            rString = refresh;
 
           },
           
