@@ -5,11 +5,19 @@
 <dom-module id="solution-table">
     <template>
         <style include="shared-styles">
+           /*table, th, td {*/
+           /*     border: 1px solid #388E3C;*/
+           /* } */
             
+            /*#solutionTable {*/
+            /*    margin: auto;*/
+            /*    width: 40vw;*/
+            /*}*/
         </style>
-        <table id="solutionTable">
+        <table id="solutionTable" class="rwd-table">
             
         </table>
+        <br>
     </template>
     <script>
         Polymer({
@@ -22,6 +30,29 @@
            },
            
            ready : function() {
+               //Create table heads
+               var headerRow = document.createElement('tr');
+               //Create the x heads
+               var variableCount = (this.solution[0].length-2)/2;
+               for (var i=0; i<variableCount; i++) {
+                   var th = document.createElement('th');
+                   th.innerHTML = "X" + (i+1);
+                   headerRow.appendChild(th);
+               }
+               
+               //Create the S heads
+               for (var i=0; i<variableCount+1; i++) {
+                   var th = document.createElement('th');
+                   th.innerHTML = "S" + (i+1);
+                   headerRow.appendChild(th);
+               }
+               
+               //Create the Z th
+               var th = document.createElement('th');
+               th.innerHTML = "Z";
+               headerRow.appendChild(th);
+               this.$.solutionTable.appendChild(headerRow);
+               
                for (var i=0; i<this.solution.length; i++) {
                    var tr = document.createElement('tr');
                    for (var j=0; j<this.solution[0].length; j++) {

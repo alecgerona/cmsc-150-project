@@ -25,6 +25,7 @@
             
             .obj {
                 margin: auto auto;
+                text-align: center;
             }
             
             .toggle {
@@ -43,25 +44,31 @@
             .clearIcon {
                 margin-top: 20px;
             }
+            
+            #errorToast {
+                --paper-toast-background-color: maroon;
+                --paper-toast-color: white;
+              }
         </style>
-        <div class="card">
+        <div hidden$="{{!showSolution}}" class="card">
             <template is="dom-repeat" items="{{solution}}">
                 <solution-table hidden$="{{!showSolution}}" solution="{{item}}"></solution-table>
             </template>
         </div>
         <div class="card">
             
-            <p>Welcome to optimizer.</p>
-            <paper-input id="objective" class="obj function" label="Objective Function"></paper-input>
-            <paper-textarea id="cons" class="obj function" max-rows="10" rows="10" label="Constraints"></paper-textarea>   
+            <p>Specify the objective function and the constraint/s.</p>
+            <paper-input id="objective" class="obj function" label="Objective Function" placeholder="-3 * x1 + -2 * x2 + -4 * x3 + 0"></paper-input>
+            <paper-textarea id="cons" class="obj function" max-rows="10" rows="3" label="Constraints"></paper-textarea>   
             <div class="toggle">
                 <paper-toggle-button id="mini">Minimize?</paper-toggle-button>
                 <br>
             </div>
-            <paper-button on-tap="compute" class="actionButton">compute</paper-button>
+            <paper-button on-tap="compute" class="actionButton" raised>compute</paper-button>
             
             
         </div>
+        <paper-toast id="errorToast"></paper-toast>
     </template>
     <script src="//code.jquery.com/jquery-1.10.2.min.js"></script> 
     <script src="../bower_components/opencpu.js/opencpu-0.5.js"></script>
@@ -89,6 +96,11 @@
             },
             
             compute : function() {
+                if (this.$.objective.value == "" || this.$.cons.value == "") {
+                    this.$.errorToast.innerHTML = "You haven't specified an objective function or a constraint.";
+                    this.$.errorToast.show();
+                    return;
+                }
                 var cons = this.$.cons.value.split("\n");
                 
                 var funcStart = "function(";
