@@ -103,25 +103,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
             <div main-title>Diet Problem Solver</div>
-            <template is="dom-if" if="{{!user}}">
-              <paper-button class="header-button" on-tap="toggleAuthModal" raised>Log-in</paper-button>
-            </template>
-            <template is="dom-if" if="{{user}}">
-              <paper-button class="header-button" on-tap="toggleAuthModal" raised>Log-out</paper-button>
-            </template>
+            
           </app-toolbar>
         </app-header>
 
         <iron-pages
             selected="[[page]]"
             attr-for-selected="name"
-            fallback-selection="view404"
+            fallback-selection="my-view404"
             role="main">
           <my-view1 name="view1"></my-view1>
           <food-select name="food-select"></food-select>
+          <plain-optimizer name="plain-optimizer"></plain-optimizer>
           <my-view2 name="view2"></my-view2>
           <my-view3 name="view3"></my-view3>
-          <my-view404 name="view404"></my-view404>
+          <my-view404 name="my-view404"></my-view404>
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
@@ -134,36 +130,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!--  <my-view404 name="view404"></my-view404>-->
     <!--</iron-pages>-->
     
-     <paper-dialog id="authModal">
-        <h2>Log-in</h2>
-        <div hidden$="{{user}}">
-          <form on-submit="signInWithEmailAndPassword">
-            <paper-input value="{{email}}" type="email" placeholder="Email"></paper-input>
-            <paper-input value="{{password}}" type="password" placeholder="Password"></paper-input>
-            <paper-button raised type="submit" on-tap="signInWithEmailAndPassword">Sign In</paper-button>
-            <paper-button raised type="button" on-tap="createUserWithEmailAndPassword">Sign Up</paper-button>
-          </form>
-          <p>
-            <paper-button raised on-tap="signInAnonymously">
-              Sign-in anonymously
-            </paper-button>
-            <paper-button raised on-tap="signInWithGoogle">
-              Sign-in with Google
-            </paper-button>
-          </p>
-        </div>
-        <div hidden$="{{!user}}">
-          <table>
-            <tr><th>uid</th> <td>{{user.uid}}</td></tr>
-            <paper-input id="specialUID" name="UID" hidden=true value="{{user.uid}}"></paper-input>
-            <tr><th>displayName</th> <td>{{user.displayName}}</td></tr>
-            <tr><th>email</th> <td>{{user.email}}</td></tr>
-            <tr><th>emailVerified</th> <td>{{user.emailVerified}}</td></tr>
-          </table>
-  
-          <button on-tap="signOut">Sign Out</button>
-        </div>
-      </paper-dialog> 
+     
   </template>
 
   <script>
@@ -200,7 +167,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _showPage404: function() {
-        this.page = 'view404';
+        this.page = 'my-view404';
       },
       
       toggleAuthModal: function(e) {

@@ -434,6 +434,8 @@
             let req = ocpu.rpc("identity", {
                 "x" : test
             }, function(session){
+              console.log('session');
+              console.log(session);
               if (session[session.length-1] == 0) {
                 this.$.errorToast.innerHTML = "Having a nutritious diet with your chosen food is infeasible";
                 this.$.errorToast.show();
