@@ -111,30 +111,35 @@
             
         <!--</template>-->
         <!--<template is="dom-bind">-->
+        <div hidden$="{{!result}}" class="card">
+          <div id="solutionDiv" class="container">
+            <p>The cost of this optimal diet is ${{cost}} per day.</p>
+            <template is="dom-repeat" items="{{solution}}">
+              <img src="../images/{{item.url}}">
+              <p>{{item.serving}} servings of {{item.name}} at ${{item.cost}}</p>
+            </template>
+          </div>  
+        </div>
         
-        <div id="solutionDiv" hidden$="{{!result}}" class="container">
-          <p>The cost of this optimal diet is ${{cost}} per day.</p>
-          <template is="dom-repeat" items="{{solution}}">
-            <img src="../images/{{item.url}}">
-            <p>{{item.serving}} servings of {{item.name}} at ${{item.cost}}</p>
-          </template>
-        </div>
-        <div class="container flex-wrap">
-          <template is="dom-repeat" items="{{foodGroup}}">
-            <img class="foodPic" value="{{item}}" on-mouseover="onHovered" on-tap="chooseFood" on-load="move" src="../images/{{item.url}}">
-          </template>
-        </div> 
-        <mercury-paginator id="merc" perpage="10" show-first show-last items="{{foodGroup}}"></mercury-paginator>
-        <div class="container">
-          <paper-button class="optionButton" on-tap="selectAll" raised>select all</paper-button>
-          <paper-button class="optionButton" on-tap="clearAll" raised>clear</paper-button>
-        </div>
-        <div class="container">
-          <paper-button hidden$="{{computing}}" id="button" on-tap="compute" raised>compute</paper-button>
-          <div hidden$="{{!computing}}">
-            <paper-spinner id="spinner" active></paper-spinner>
+        <div class="card">
+          <div class="container flex-wrap">
+            <template is="dom-repeat" items="{{foodGroup}}">
+              <img class="foodPic" value="{{item}}" on-mouseover="onHovered" on-tap="chooseFood" on-load="move" src="../images/{{item.url}}">
+            </template>
+          </div> 
+          <mercury-paginator id="merc" perpage="10" show-first show-last items="{{foodGroup}}"></mercury-paginator>
+          <div class="container">
+            <paper-button class="optionButton" on-tap="selectAll" raised>select all</paper-button>
+            <paper-button class="optionButton" on-tap="clearAll" raised>clear</paper-button>
           </div>
+          <div class="container">
+            <paper-button hidden$="{{computing}}" id="button" on-tap="compute" raised>compute</paper-button>
+            <div hidden$="{{!computing}}">
+              <paper-spinner id="spinner" active></paper-spinner>
+            </div>
+          </div>  
         </div>
+        
         
         
         
