@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="solution-table.html">
 
 <dom-module id="plain-optimizer">
     <template>
@@ -44,8 +45,13 @@
             }
         </style>
         <div class="card">
+            <template is="dom-repeat" items="{{solution}}">
+                <solution-table hidden$="{{!showSolution}}" solution="{{item}}"></solution-table>
+            </template>
+        </div>
+        <div class="card">
             
-            <p>Welcome to optimizer</p>
+            <p>Welcome to optimizer.</p>
             <paper-input id="objective" class="obj function" label="Objective Function"></paper-input>
             <paper-textarea id="cons" class="obj function" max-rows="10" rows="10" label="Constraints"></paper-textarea>   
             <div class="toggle">
@@ -68,6 +74,17 @@
                     type: Array,
                     notify: true,
                     value: []
+                },
+                
+                showSolution: {
+                    type: Boolean,
+                    notify: true,
+                    value: false
+                },
+                
+                solution: {
+                    type: Array,
+                    notify: true,
                 }
             },
             
@@ -108,6 +125,8 @@
                     "x" : run
                 }, function(session){
                   console.log(session);
+                  this.solution = session;
+                  this.showSolution = true;
                 }.bind(this));
                 
                 
