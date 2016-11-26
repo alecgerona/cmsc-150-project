@@ -1,0 +1,141 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+<dom-module id="plain-optimizer">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+            
+            .card {
+                text-align: center;
+            }
+            
+            .function {
+                width: 60%;
+            }
+            
+            .obj {
+                margin: auto auto;
+            }
+            
+            .toggle {
+                width: 15vw;
+                margin: auto auto;
+            }
+            .remove {
+                width: 40%;
+            }
+            
+            .constraintClass {
+                width: 50vw;
+                margin: auto auto;
+            }
+            
+            .clearIcon {
+                margin-top: 20px;
+            }
+        </style>
+        <div class="card">
+            
+            <p>Welcome to optimizer</p>
+            <paper-input id="objective" class="obj function" label="Objective Function"></paper-input>
+            <paper-textarea id="cons" class="obj function" max-rows="10" rows="10" label="Constraints"></paper-textarea>   
+            <div class="toggle">
+                <paper-toggle-button id="mini">Minimize?</paper-toggle-button>
+                <br>
+            </div>
+            <paper-button on-tap="compute" class="actionButton">compute</paper-button>
+            
+            
+        </div>
+    </template>
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script> 
+    <script src="../bower_components/opencpu.js/opencpu-0.5.js"></script>
+    <script src="rscript.js"></script>
+    <script>
+        Polymer({
+            is: 'plain-optimizer',
+            properties: {
+                constraints: {
+                    type: Array,
+                    notify: true,
+                    value: []
+                }
+            },
+            
+            compute : function() {
+                var cons = this.$.cons.value.split("\n");
+                
+                var funcStart = "function(";
+                for (var i=1; i<=cons.length; i++) {
+                    if (i != 1) funcStart += ", ";
+                    funcStart += "x" + i;
+                }
+                
+                funcStart += ") ";
+                
+                //Prepend simplex call
+                var simplexCall = "system <- list(";
+                for (var i=1; i<=cons.length+1; i++) {
+                    if (i != 1) simplexCall += ", ";
+                    simplexCall += "E" + i;
+                }
+                simplexCall += "); ";
+                
+                //Check whether to maximize or minimize
+                var script = (this.$.mini.checked) ? rString : maximizeTest;
+                
+                script = simplexCall + script;
+                
+                for (var i=0; i<cons.length; i++) {
+                    cons[i] = "E" + (i+1) + " <- " + funcStart + cons[i] + ";";
+                    script = cons[i] + script;
+                }
+                
+                //Add objective function
+                script = "E" + (cons.length+1) + " <- " + funcStart + this.$.objective.value + ";" + script;
+                var run = new ocpu.Snippet(script);
+                ocpu.seturl("//public.opencpu.org/ocpu/library/base/R");
+                var req = ocpu.rpc("identity", {
+                    "x" : run
+                }, function(session){
+                  console.log(session);
+                }.bind(this));
+                
+                
+                console.log(script);
+                
+                
+                console.log(cons);
+                console.log(this.$.objective.value);
+            },
+            
+            remove : function(item) {
+                var index = this.constraints.indexOf(item);
+                if (index == -1) {
+                    this.constraints.splice(index, 1);
+                    this.$.cons.render();
+                    console.log(this.constraints);
+                }
+            },
+            
+            addConstraint : function() {
+                
+                if (this.$.mini.checked) {
+                    console.log(true);
+                } else {
+                    console.log(false);
+                }
+                
+            }
+        });
+    </script>
+</dom-module>
