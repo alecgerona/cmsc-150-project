@@ -435,7 +435,7 @@
             
             //Run R Script
             ocpu.seturl("//public.opencpu.org/ocpu/library/base/R");
-            let req = ocpu.rpc("identity", {
+            var req = ocpu.rpc("identity", {
                 "x" : test
             }, function(session){
               //console.log('session');
@@ -622,7 +622,7 @@
           
           test: function() {
             ocpu.seturl("//public.opencpu.org/ocpu/library/base/R");
-            let req = ocpu.rpc("identity", {
+            var req = ocpu.rpc("identity", {
                 "x" : rString
             }, function(session){
               //console.log(session);
