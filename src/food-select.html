@@ -271,7 +271,7 @@
               selectFood.splice(index, 1);
               event.target.style.background = "";
             }
-            console.log(selectFood);
+            //console.log(selectFood);
           },
           
           compute: function() {
@@ -303,97 +303,97 @@
               simplexCall += "E" + i;
             }
             simplexCall += "); ";
-            console.log(simplexCall);
+            //console.log(simplexCall);
             rString = simplexCall + rString;
             
             //Add Nutrition limits
             
             calories = "E1 <- " + funcStart + calories + " + -2000;";
-            console.log(calories);
+            //console.log(calories);
             rString = calories + rString;
             
             maxCalories = "E2 <- " + funcStart + maxCalories + " + 2250;";
-            console.log(maxCalories);
+            //console.log(maxCalories);
             rString = maxCalories + rString;
             
             cholesterol = "E3 <- " + funcStart + cholesterol + " + 0;";
-            console.log(cholesterol);
+            //console.log(cholesterol);
             rString = cholesterol + rString;
             
             maxCholesterol = "E4 <- " + funcStart + maxCholesterol + " + 300;";
-            console.log(maxCholesterol);
+            //console.log(maxCholesterol);
             rString = maxCholesterol + rString;
             
             totalFat = "E5 <- " + funcStart + totalFat + " + -0;";
-            console.log(totalFat);
+            //console.log(totalFat);
             rString = totalFat + rString;
             
             maxTotalFat = "E6 <- " + funcStart + maxTotalFat + " + 65;";
-            console.log(maxTotalFat);
+            //console.log(maxTotalFat);
             rString = maxTotalFat + rString;
             
             sodium = "E7 <- " + funcStart + sodium + " + 0;";
-            console.log(sodium);
+            //console.log(sodium);
             rString = sodium + rString;
             
             maxSodium = "E8 <- " + funcStart + maxSodium + " + 2400;";
-            console.log(maxSodium);
+            //console.log(maxSodium);
             rString = maxSodium + rString;
             
             carbohydrates = "E9 <- " + funcStart + carbohydrates + " + 0;";
-            console.log(carbohydrates);
+            //console.log(carbohydrates);
             rString = carbohydrates + rString;
             
             maxCarbohydrates = "E10 <- " + funcStart + maxCarbohydrates + " + 300;";
-            console.log(maxCarbohydrates);
+            //console.log(maxCarbohydrates);
             rString = maxCarbohydrates + rString;
             
             dietaryFiber = "E11 <- " + funcStart + dietaryFiber + " + -25;";
-            console.log(dietaryFiber);
+            //console.log(dietaryFiber);
             rString = dietaryFiber + rString;
             
             maxDietaryFiber = "E12 <- " + funcStart + maxDietaryFiber + " + 100;";
-            console.log(maxDietaryFiber);
+            //console.log(maxDietaryFiber);
             rString = maxDietaryFiber + rString;
             
             protein = "E13 <- " + funcStart + protein + " + -50;";
-            console.log(protein);
+            //console.log(protein);
             rString = protein + rString;
             
             maxProtein = "E14 <- " + funcStart + maxProtein + " + 100;";
-            console.log(maxProtein);
+            //console.log(maxProtein);
             rString = maxProtein + rString;
             
             vitA = "E15 <- " + funcStart + vitA + " + -5000;";
-            console.log(vitA);
+            //console.log(vitA);
             rString = vitA + rString;
             
             maxVitA = "E16 <- " + funcStart + maxVitA + " + 50000;";
-            console.log(maxVitA);
+            //console.log(maxVitA);
             rString = maxVitA + rString;
             
             vitC = "E17 <- " + funcStart + vitC + " + -50;";
-            console.log(vitC);
+            //console.log(vitC);
             rString = vitC + rString;
             
             maxVitC = "E18 <- " + funcStart + maxVitC + " + 20000;";
-            console.log(maxVitC);
+            //console.log(maxVitC);
             rString = maxVitC + rString;
             
             calcium = "E19 <- " + funcStart + calcium + " + -800;";
-            console.log(calcium);
+            //console.log(calcium);
             rString = calcium + rString;
             
             maxCalcium = "E20 <- " + funcStart + maxCalcium + " + 1600;";
-            console.log(maxCalcium);
+            //console.log(maxCalcium);
             rString = maxCalcium + rString;
             
             iron = "E21 <- " + funcStart + iron + " + -10;";
-            console.log(iron);
+            //console.log(iron);
             rString = iron + rString;
             
             maxIron = "E22 <- " + funcStart + maxIron + " + 30;";
-            console.log(maxIron);
+            //console.log(maxIron);
             rString = maxIron + rString;
             
             var equationCount = 23;
@@ -421,16 +421,16 @@
               equationCount++;
               curr = "";
             }
-            console.log(serving);
+            //console.log(serving);
             for (var i=0; i<serving.length; i++) {
               rString = serving[i] + rString;
             }
             
             objectiveFunction = "E" + equationCount + " <- " + funcStart + objectiveFunction + " + 0;"
-            console.log(objectiveFunction);
+            //console.log(objectiveFunction);
             rString = objectiveFunction + rString;
             
-            console.log(rString);
+            //console.log(rString);
             var test = new ocpu.Snippet(rString);
             
             //Run R Script
@@ -438,8 +438,8 @@
             let req = ocpu.rpc("identity", {
                 "x" : test
             }, function(session){
-              console.log('session');
-              console.log(session);
+              //console.log('session');
+              //console.log(session);
               if (session[session.length-1] == 0) {
                 this.$.errorToast.innerHTML = "Having a nutritious diet with your chosen food is infeasible";
                 this.$.errorToast.show();
@@ -448,8 +448,8 @@
                 return;
               }
               this.cost = Math.ceil(session[session.length-1] * 100) / 100;
-              console.log(session.length);
-              console.log(session.length);
+              //console.log(session.length);
+              //console.log(session.length);
               this.computing = !this.computing;
               var solutionArray = [];
               var solution = {};
@@ -468,7 +468,7 @@
                   solutionArray.push(JSON.parse(JSON.stringify(solution)));
                 }
               }
-              console.log(solutionArray);
+              //console.log(solutionArray);
               this.solution = solutionArray;
               this.result = true;
               this.$.solutionDiv.scrollIntoView();
@@ -537,74 +537,74 @@
               maxIron += " + ";
             }
             objectiveFunction += foodGroup[index].pricePerServing + " * x" + foodCount;
-            console.log("objectiveFunction: " + objectiveFunction);
+            //console.log("objectiveFunction: " + objectiveFunction);
             
             //Add to constraints
             //Add calorie constraints
             calories += foodGroup[index].calories + " * x" + foodCount;
             maxCalories += "-" + foodGroup[index].calories + " * x" + foodCount;
-            console.log("calories: " + calories);
-            console.log("maxCalories: " + maxCalories);
+            //console.log("calories: " + calories);
+            //console.log("maxCalories: " + maxCalories);
             
             //Add cholesterol
             cholesterol += foodGroup[index].cholesterol + " * x" + foodCount;
             maxCholesterol += "-" + foodGroup[index].cholesterol + " * x" + foodCount;
-            console.log("Cholesterol: " + cholesterol);
-            console.log("maxCholesterol: " + maxCholesterol);
+            //console.log("Cholesterol: " + cholesterol);
+            //console.log("maxCholesterol: " + maxCholesterol);
             
             //Add totalFat
             totalFat += foodGroup[index].totalFat + " * x" + foodCount;
             maxTotalFat += "-" + foodGroup[index].totalFat + " * x" + foodCount;
-            console.log("totalFat: " + totalFat);
-            console.log("maxTotalFat: " + maxTotalFat);
+            //console.log("totalFat: " + totalFat);
+            //console.log("maxTotalFat: " + maxTotalFat);
             
             //Add sodium
             sodium += foodGroup[index].sodium + " * x" + foodCount;
             maxSodium += "-" + foodGroup[index].sodium + " * x" + foodCount;
-            console.log("sodium: " + sodium);
-            console.log("maxSodium: " + maxSodium);
+            //console.log("sodium: " + sodium);
+            //console.log("maxSodium: " + maxSodium);
             
             //Add carbohydrates
             carbohydrates += foodGroup[index].carbohydrates + " * x" + foodCount;
             maxCarbohydrates += "-" + foodGroup[index].carbohydrates + " * x" + foodCount;
-            console.log("carbohydrates: " + carbohydrates);
-            console.log("maxCarbohydrates: " + maxCarbohydrates);
+            //console.log("carbohydrates: " + carbohydrates);
+            //console.log("maxCarbohydrates: " + maxCarbohydrates);
             
             //Add dietaryFiber
             dietaryFiber += foodGroup[index].dietaryFiber + " * x" + foodCount;
             maxDietaryFiber += "-" + foodGroup[index].dietaryFiber + " * x" + foodCount;
-            console.log("dietaryFiber: " + dietaryFiber);
-            console.log("maxDietaryFiber: " + maxDietaryFiber);
+            //console.log("dietaryFiber: " + dietaryFiber);
+            //console.log("maxDietaryFiber: " + maxDietaryFiber);
             
             //Add protein
             protein += foodGroup[index].protein + " * x" + foodCount;
             maxProtein += "-" + foodGroup[index].protein + " * x" + foodCount;
-            console.log("protein: " + protein);
-            console.log("maxProtein: " + maxProtein);
+            //console.log("protein: " + protein);
+            //console.log("maxProtein: " + maxProtein);
             
             //Add vitA
             vitA += foodGroup[index].vitA + " * x" + foodCount;
             maxVitA += "-" + foodGroup[index].vitA + " * x" + foodCount;
-            console.log("vitA: " + vitA);
-            console.log("maxVitA: " + maxVitA);
+            //console.log("vitA: " + vitA);
+            //console.log("maxVitA: " + maxVitA);
             
             //Add vitC
             vitC += foodGroup[index].vitC + " * x" + foodCount;
             maxVitC += "-" + foodGroup[index].vitC + " * x" + foodCount;
-            console.log("vitC: " + vitC);
-            console.log("maxVitC: " + maxVitC);
+            //console.log("vitC: " + vitC);
+            //console.log("maxVitC: " + maxVitC);
             
             //Add calcium
             calcium += foodGroup[index].calcium + " * x" + foodCount;
             maxCalcium += "-" + foodGroup[index].calcium + " * x" + foodCount;
-            console.log("calcium: " + calcium);
-            console.log("maxCalcium: " + maxCalcium);
+            //console.log("calcium: " + calcium);
+            //console.log("maxCalcium: " + maxCalcium);
             
             //Add iron
             iron += foodGroup[index].iron + " * x" + foodCount;
             maxIron += "-" + foodGroup[index].iron + " * x" + foodCount;
-            console.log("iron: " + iron);
-            console.log("maxIron: " + maxIron);
+            //console.log("iron: " + iron);
+            //console.log("maxIron: " + maxIron);
             
             
             foodCount++;
@@ -614,7 +614,7 @@
           ready: function() {
               this.foodGroup = foodGroup;
               this.$.merc.data = foodGroup;
-              // console.log(foodGroup.food.banana.calories);
+              // //console.log(foodGroup.food.banana.calories);
           },
           
           onHovered: function() {
@@ -625,7 +625,7 @@
             let req = ocpu.rpc("identity", {
                 "x" : rString
             }, function(session){
-              console.log(session);
+              //console.log(session);
               this.$.name.textContent = session;
             }.bind(this));
             

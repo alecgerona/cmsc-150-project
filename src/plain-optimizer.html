@@ -118,7 +118,7 @@
             
             toggleMaximize : function() {
               this.maximize = !this.maximize;
-              console.log(this.maximize);
+              ////console.log(this.maximize);
             },
             
             compute : function() {
@@ -162,11 +162,11 @@
                 var req = ocpu.rpc("identity", {
                     "x" : run
                 }, function(session){
-                //   console.log(this.solution);
+                //   ////console.log(this.solution);
                   this.solution = [];
                   this.$.repeatTable.render();
-                //   console.log(this.solution);
-                //   console.log(session);
+                //   ////console.log(this.solution);
+                //   ////console.log(session);
                   this.solution = session;
                   
                   //Get the value of Z
@@ -179,19 +179,19 @@
                   if (this.$.mini.checked) {
                       var coeff = answer[answer.length-1];
                       var num = (coeff.length-2)/2;
-                      console.log(coeff);
+                      ////console.log(coeff);
                       var array=[];
                       for (var i=0; i<num; i++) {
                         var newVal = coeff[coeff.length-2-num+i];
                         array.push(newVal);
                       }
                       this.value = array;
-                      console.log(this.value);
+                      //console.log(this.value);
                   } else {
                       
                       
                   }
-                //   console.log(this.solution);
+                //   //console.log(this.solution);
                   this.$.repeatTable.render();
                   this.showSolution = true;
                   this.$.startDiv.scrollIntoView();
@@ -201,11 +201,11 @@
                 }.bind(this));
                 
                 
-                console.log(script);
+                //console.log(script);
                 
                 
-                console.log(cons);
-                console.log(this.$.objective.value);
+                //console.log(cons);
+                //console.log(this.$.objective.value);
                 
             },
             
@@ -214,16 +214,16 @@
                 if (index == -1) {
                     this.constraints.splice(index, 1);
                     this.$.cons.render();
-                    console.log(this.constraints);
+                    //console.log(this.constraints);
                 }
             },
             
             addConstraint : function() {
                 
                 if (this.$.mini.checked) {
-                    console.log(true);
+                    //console.log(true);
                 } else {
-                    console.log(false);
+                    //console.log(false);
                 }
                 
             }
