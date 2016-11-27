@@ -28,10 +28,17 @@
                solution: {
                    type: Array,
                    notify: true
+               },
+               
+               maximize: {
+                   type: Boolean,
+                   notify: true
                }
+               
            },
            
            ready : function() {
+               var subtractor = (this.maximize) ? 0 : 1; 
                //Create table heads
                var headerRow = document.createElement('tr');
                //Create the x heads
@@ -43,7 +50,7 @@
                }
                
                //Create the S heads
-               for (var i=0; i<variableCount+1; i++) {
+               for (var i=0; i<variableCount+subtractor; i++) {
                    var th = document.createElement('th');
                    th.innerHTML = "S" + (i+1);
                    headerRow.appendChild(th);
@@ -110,7 +117,7 @@
                }
                
                //Create the S heads
-               for (var i=0; i<variableCount+1; i++) {
+               for (var i=0; i<variableCount+subtractor-1; i++) {
                    var th = document.createElement('th');
                    th.innerHTML = "S" + (i+1);
                    headerRow.appendChild(th);

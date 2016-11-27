@@ -53,7 +53,7 @@
         <div hidden$="{{!showSolution}}" class="card">
             <p>The optimum value is {{optimum}}.</p>
             <template id="repeatTable" is="dom-repeat" items="{{solution}}">
-                <solution-table id="solutionTable" hidden$="{{!showSolution}}" solution$="{{item}}"></solution-table>
+                <solution-table id="solutionTable" maximize="{{maximize}}" hidden$="{{!showSolution}}" solution$="{{item}}"></solution-table>
                 <br>
             </template>
         </div>
@@ -63,7 +63,7 @@
             <paper-input id="objective" class="obj function" label="Objective Function" placeholder="-3 * x1 + -2 * x2 + -4 * x3 + 0"></paper-input>
             <paper-textarea id="cons" class="obj function" max-rows="10" rows="3" label="Constraints"></paper-textarea>   
             <div class="toggle">
-                <paper-toggle-button id="mini">Minimize?</paper-toggle-button>
+                <paper-toggle-button id="mini" on-tap="toggleMaximize">Minimize?</paper-toggle-button>
                 <br>
             </div>
             <paper-button on-tap="compute" class="actionButton" raised>compute</paper-button>
@@ -106,7 +106,18 @@
                     type: Array,
                     notify: true,
                     value: []
+                },
+                
+                maximize: {
+                    type: Boolean,
+                    notify: true,
+                    value: true
                 }
+            },
+            
+            toggleMaximize : function() {
+              this.maximize = !this.maximize;
+              console.log(this.maximize);
             },
             
             compute : function() {
