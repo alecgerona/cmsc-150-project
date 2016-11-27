@@ -74,7 +74,56 @@
                
                
                //Render basic solution
+               if (!this.maximize) {
+                   var answer = this.solution[this.solution.length-1];
+                   //Create table heads
+                   var headerRow = document.createElement('tr');
+                   //Create the x heads
+                   var variableCount = (this.solution[0].length-2)/2;
+                   for (var i=0; i<variableCount; i++) {
+                       var th = document.createElement('th');
+                       th.innerHTML = "X" + (i+1);
+                       headerRow.appendChild(th);
+                   }
+                   
+                   //Create the S heads
+                   for (var i=0; i<variableCount+subtractor-1; i++) {
+                       var th = document.createElement('th');
+                       th.innerHTML = "S" + (i+1);
+                       headerRow.appendChild(th);
+                   }
+                   
+                   //Create the Z th
+                   var th = document.createElement('th');
+                   th.innerHTML = "Z";
+                   headerRow.appendChild(th);
+                   
+                   this.$.basicSolution.appendChild(headerRow);
+                   //Create the solution table
+                   var tr = document.createElement('tr');
+                   for (var i=0; i<variableCount; i++) {
+                       var td = document.createElement('td');
+                       td.innerHTML = answer[answer.length-2-variableCount+i];
+                       tr.appendChild(td);
+                   }
+                   
+                   //Create the slacks' part
+                   for (var i=0; i<variableCount; i++) {
+                       var td = document.createElement('td');
+                       td.innerHTML = answer[i];
+                       tr.appendChild(td);
+                   }
+                   
+                   //Append Z
+                   var td = document.createElement('td');
+                   td.innerHTML = answer[answer.length-1];
+                   tr.append(td);
+                   
+                   this.$.basicSolution.appendChild(tr);
+                   return;
+               }
                var answer=this.solution;
+               console.log(this.solution);
                var array=[];
                console.log(answer);
                var coeff = answer[answer.length-1];

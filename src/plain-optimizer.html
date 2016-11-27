@@ -50,6 +50,7 @@
                 --paper-toast-color: white;
               }
         </style>
+        <div id="startDiv"></div>
         <div hidden$="{{!showSolution}}" class="card">
             <p>The optimum value is {{optimum}}.</p>
             <template id="repeatTable" is="dom-repeat" items="{{solution}}">
@@ -59,7 +60,7 @@
         </div>
         <div class="card">
             
-            <p>Specify the objective function and the constraint/s.</p>
+            <p>Specify the objective function and the constraint/s. The constraints should be spaced by new lines. When maximizing, the objective function and all surpluses are negated. When minimizing, all slacks are negated. Follow the format below.</p>
             <paper-input id="objective" class="obj function" label="Objective Function" placeholder="-3 * x1 + -2 * x2 + -4 * x3 + 0"></paper-input>
             <paper-textarea id="cons" class="obj function" max-rows="10" rows="3" label="Constraints"></paper-textarea>   
             <div class="toggle">
@@ -193,6 +194,10 @@
                 //   console.log(this.solution);
                   this.$.repeatTable.render();
                   this.showSolution = true;
+                  this.$.startDiv.scrollIntoView();
+                }.bind(this)).fail(function(){
+                    this.$.errorToast.innerHTML = "The equation you've inputted cannot be optimized.";
+                    this.$.errorToast.show();
                 }.bind(this));
                 
                 
@@ -201,6 +206,7 @@
                 
                 console.log(cons);
                 console.log(this.$.objective.value);
+                
             },
             
             remove : function(item) {
