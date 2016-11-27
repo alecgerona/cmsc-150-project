@@ -24,6 +24,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 10px;
       }
       
+      .link {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(maroon);
+        text-decoration: none;
+        /* required for IE 11, so this <a> can receive pointer events */
+        display: inline-block;
+        pointer-events: auto;
+      }
+      
       #wall {
         @apply(--layout-vertical);
         @apply(--layout-center);
@@ -45,6 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
       paper-button {
         background-color: var(--app-primary-color);
+        color: white;
       }
       
       
@@ -53,20 +64,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div id="wall">
       
        <paper-card 
-          image="https://pixabay.com/get/e833b20e2ff6063ed1584d05fb0938c9bd22ffd41db6164091f9c670ae/food-1631727_1280.jpg"
+          image="../images/landing.jpg"
           fadeImage="true"
           elevation="3"
        >
           <div class="card-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            An online optimizer that can handle equations or preset diet food options using the simplex method.
           </div>
           <div class="card-actions">
-            <a href="/food-select">
-              <paper-button raised>Diet Optimizier</paper-button>
-            </a>
-            <a href="/plain-optimizer">
-              <paper-button raised>Plain old optimizer</paper-button>
-            </a>
+            <a class="link" href="/food-select">Diet Optimizer</a>
+            <br>
+            <a class="link" href="/plain-optimizer">Plain Optimizer</a>
           </div>
         </paper-card>
         
@@ -76,7 +84,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
     Polymer({
-      is: 'my-view1'
+      is: 'my-view1',
+      
+      goUrl : function() {
+        location.href('/food-select');
+      }
     });
   </script>
 </dom-module>

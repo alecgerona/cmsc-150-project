@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="solution-table.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
 
 <dom-module id="plain-optimizer">
     <template>
@@ -67,7 +68,10 @@
                 <paper-toggle-button id="mini" on-tap="toggleMaximize">Minimize?</paper-toggle-button>
                 <br>
             </div>
-            <paper-button on-tap="compute" class="actionButton" raised>compute</paper-button>
+            <paper-button hidden$="{{computing}}" on-tap="compute" class="actionButton" raised>compute</paper-button>
+            <div hidden$="{{!computing}}">
+              <paper-spinner id="spinner" active></paper-spinner>
+            </div>
             
             
         </div>
@@ -113,6 +117,12 @@
                     type: Boolean,
                     notify: true,
                     value: true
+                },
+                
+                computing: {
+                    type: Boolean,
+                    notify: true,
+                    value: false
                 }
             },
             
@@ -127,6 +137,7 @@
                     this.$.errorToast.show();
                     return;
                 }
+                this.computing = !this.computing;
                 var cons = this.$.cons.value.split("\n");
                 
                 var funcStart = "function(";
@@ -195,9 +206,11 @@
                   this.$.repeatTable.render();
                   this.showSolution = true;
                   this.$.startDiv.scrollIntoView();
+                  this.computing = !this.computing;
                 }.bind(this)).fail(function(){
                     this.$.errorToast.innerHTML = "The equation you've inputted cannot be optimized.";
                     this.$.errorToast.show();
+                    this.computing = !this.computing;
                 }.bind(this));
                 
                 

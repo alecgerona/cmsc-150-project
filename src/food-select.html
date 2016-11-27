@@ -132,7 +132,7 @@
             <paper-button class="optionButton" on-tap="clearAll" raised>clear</paper-button>
           </div>
           <div class="container">
-            <paper-button hidden$="{{computing}}" id="button" on-tap="compute" raised>compute</paper-button>
+            <paper-button hidden$="{{computing}}" class="actionButton" id="button" on-tap="compute" raised>compute</paper-button>
             <div hidden$="{{!computing}}">
               <paper-spinner id="spinner" active></paper-spinner>
             </div>
