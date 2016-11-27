@@ -17,6 +17,8 @@
         <table id="solutionTable" class="rwd-table">
             
         </table>
+        <p>The basic solution is</p>
+        <table id="basicSolution"></table>
         <br>
     </template>
     <script>
@@ -62,6 +64,73 @@
                    }
                    this.$.solutionTable.appendChild(tr);
                }
+               
+               
+               //Render basic solution
+               var answer=this.solution;
+               var array=[];
+               console.log(answer);
+               var coeff = answer[answer.length-1];
+               console.log(coeff);
+               var num = (coeff.length-1);
+               var testArray=[];
+               var check0=0;
+               var check1=0;
+               for (var i=0; i<num; i++) {
+                   for (var j=0; j<num/2; j++) {
+                     if (answer[j][i] == 0) {
+                         check0++;
+                     }
+                     if (answer[j][i] == 1) {
+                         check1++;
+                     }
+                     testArray.push(answer[j][i]);
+                   }
+                   if (check0 == (num/2)-1 && check1 == 1) {
+                       var index = testArray.indexOf(1);
+                       check0=0;
+                       check1=0;
+                       array.push(answer[index][num]);
+                       testArray=[];
+                       continue;
+                   }
+                   check0=0;
+                   check1=0;
+                   array.push(0);
+                   testArray=[];
+               }
+               //Create table heads
+               var headerRow = document.createElement('tr');
+               //Create the x heads
+               var variableCount = (this.solution[0].length-2)/2;
+               for (var i=0; i<variableCount; i++) {
+                   var th = document.createElement('th');
+                   th.innerHTML = "X" + (i+1);
+                   headerRow.appendChild(th);
+               }
+               
+               //Create the S heads
+               for (var i=0; i<variableCount+1; i++) {
+                   var th = document.createElement('th');
+                   th.innerHTML = "S" + (i+1);
+                   headerRow.appendChild(th);
+               }
+               
+               //Create the Z th
+               var th = document.createElement('th');
+               th.innerHTML = "Z";
+               headerRow.appendChild(th);
+               
+               this.$.basicSolution.appendChild(headerRow);
+               //Create the solution table
+               var tr = document.createElement('tr');
+               for (var i=0; i<array.length; i++) {
+                   var td = document.createElement('td');
+                   td.innerHTML = array[i];
+                   tr.appendChild(td);
+               }
+               this.$.basicSolution.appendChild(tr);
+              
            }
         });
     </script>

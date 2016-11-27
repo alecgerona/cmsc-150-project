@@ -51,9 +51,10 @@
               }
         </style>
         <div hidden$="{{!showSolution}}" class="card">
+            <p>The optimum value is {{optimum}}.</p>
             <template id="repeatTable" is="dom-repeat" items="{{solution}}">
                 <solution-table id="solutionTable" hidden$="{{!showSolution}}" solution$="{{item}}"></solution-table>
-                <!--{{item}}-->
+                <br>
             </template>
         </div>
         <div class="card">
@@ -91,6 +92,17 @@
                 },
                 
                 solution: {
+                    type: Array,
+                    notify: true,
+                    value: []
+                },
+                
+                optimum: {
+                    type: Number,
+                    notify: true
+                },
+                
+                value: {
                     type: Array,
                     notify: true,
                     value: []
@@ -138,13 +150,36 @@
                 var req = ocpu.rpc("identity", {
                     "x" : run
                 }, function(session){
-                  console.log(this.solution);
+                //   console.log(this.solution);
                   this.solution = [];
                   this.$.repeatTable.render();
-                  console.log(this.solution);
-                  console.log(session);
+                //   console.log(this.solution);
+                //   console.log(session);
                   this.solution = session;
-                  console.log(this.solution);
+                  
+                  //Get the value of Z
+                  var answer = session[session.length-1];
+                  var optimum = answer[answer.length-1];
+                  optimum = optimum[optimum.length-1];
+                  this.optimum = optimum;
+                  
+                  //Get the values of the variables
+                  if (this.$.mini.checked) {
+                      var coeff = answer[answer.length-1];
+                      var num = (coeff.length-2)/2;
+                      console.log(coeff);
+                      var array=[];
+                      for (var i=0; i<num; i++) {
+                        var newVal = coeff[coeff.length-2-num+i];
+                        array.push(newVal);
+                      }
+                      this.value = array;
+                      console.log(this.value);
+                  } else {
+                      
+                      
+                  }
+                //   console.log(this.solution);
                   this.$.repeatTable.render();
                   this.showSolution = true;
                 }.bind(this));
