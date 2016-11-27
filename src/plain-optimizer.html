@@ -51,8 +51,8 @@
               }
         </style>
         <div hidden$="{{!showSolution}}" class="card">
-            <template is="dom-repeat" items="{{solution}}">
-                <solution-table hidden$="{{!showSolution}}" solution="{{item}}"></solution-table>
+            <template id="repeatTable" is="dom-repeat" items="{{solution}}">
+                <solution-table id="solutionTable" hidden$="{{!showSolution}}" solution="{{item}}"></solution-table>
             </template>
         </div>
         <div class="card">
@@ -120,7 +120,7 @@
                 simplexCall += "); ";
                 
                 //Check whether to maximize or minimize
-                var script = (this.$.mini.checked) ? rString : maximizeTest;
+                var script = (this.$.mini.checked) ? minimizeCompile : maximizeTest;
                 
                 script = simplexCall + script;
                 
@@ -138,6 +138,7 @@
                 }, function(session){
                   console.log(session);
                   this.solution = session;
+                  this.$.repeatTable.render();
                   this.showSolution = true;
                 }.bind(this));
                 
