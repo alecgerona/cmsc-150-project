@@ -52,7 +52,8 @@
         </style>
         <div hidden$="{{!showSolution}}" class="card">
             <template id="repeatTable" is="dom-repeat" items="{{solution}}">
-                <solution-table id="solutionTable" hidden$="{{!showSolution}}" solution="{{item}}"></solution-table>
+                <solution-table id="solutionTable" hidden$="{{!showSolution}}" solution$="{{item}}"></solution-table>
+                <!--{{item}}-->
             </template>
         </div>
         <div class="card">
@@ -92,6 +93,7 @@
                 solution: {
                     type: Array,
                     notify: true,
+                    value: []
                 }
             },
             
@@ -136,8 +138,13 @@
                 var req = ocpu.rpc("identity", {
                     "x" : run
                 }, function(session){
+                  console.log(this.solution);
+                  this.solution = [];
+                  this.$.repeatTable.render();
+                  console.log(this.solution);
                   console.log(session);
                   this.solution = session;
+                  console.log(this.solution);
                   this.$.repeatTable.render();
                   this.showSolution = true;
                 }.bind(this));
