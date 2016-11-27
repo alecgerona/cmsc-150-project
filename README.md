@@ -2,6 +2,8 @@
 
 A web app that allows users to minimize or maximize functions either explicitly or through the Diet Optimizer feature.
 
+Website available at [optimizer.alecgerona.me](https://optimizer.alecgerona.me)
+
 ## Plain optimizer
 
 Provides an area to place functions in a linear programming problem that users can maximize or minimize.
