@@ -22,10 +22,11 @@
     "paper-input": "PolymerElements/paper-input#^1.1.22",
     "polymerfire": "firebase/polymerfire#^0.10.2",
     "mercury-paginator": "^1.1.2",
-    "paper-pagination": "^0.2.2",
     "paper-spinner": "PolymerElements/paper-spinner#^1.2.1",
     "iron-icons": "PolymerElements/iron-icons#^1.2.0",
-    "paper-toggle-button": "PolymerElements/paper-toggle-button#^1.2.1"
+    "paper-toggle-button": "PolymerElements/paper-toggle-button#^1.2.1",
+    "paper-toast": "PolymerElements/paper-toast#^2.1.0",
+    "opencpu.js": "opencpu#*"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
