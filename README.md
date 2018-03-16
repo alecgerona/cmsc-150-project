@@ -18,3 +18,12 @@ After solving, the application will output the tableu of each iteration along wi
 ## Diet optimizer
 
 Given an array of 64 food items, users can select any number of food and have the application crunch the optimum food combination with the lowest cost that retains its nutrition quality. The application will output each food along with its recommended serving and projected price. 
+
+# Installation
+Make sure that `bower` and `firebase-cli` is installed.
+
+Log in to Firebase and use the following commands:
+
+    bower install
+    polymer build
+    firebase deploy
